@@ -1,0 +1,38 @@
+h1{
+	color:#0000FF;
+}
+
+body {
+    background: #FFFFE0;
+}
+
+.navbar-default {
+    background-color: #0f006f;
+    border-color: #030033;
+}
+
+label.error {
+	text-decoration: none;
+	font-family: arial, verdana, sans-serif;
+	color: red;
+	font-size: 12px;
+	padding-left: 4px;
+}
+
+.rounded-box{
+	border-radius: 5px;
+    border: 1px solid #aaa;
+    width: auto;
+    text-align: center;
+    height: 105px;
+}
+
+.login-box{
+	border:1px solid #ffcf77;
+	box-shadow: 1px 1px 2px #778899;
+	border-radius: 2px;
+    padding-top:30px;
+    padding-bottom:30px;
+	background: #778899; /* For browsers that do not support gradient */
+	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
