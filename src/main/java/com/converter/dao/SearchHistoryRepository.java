@@ -1,7 +1,7 @@
 package com.converter.dao;
 
-import com.converter.SearchHistory;
-import com.converter.User;
+import com.converter.domain.SearchHistory;
+import com.converter.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
