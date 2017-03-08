@@ -1,10 +1,6 @@
 package com.converter.web;
 
-import com.converter.User;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,13 +23,5 @@ public class LoginController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView login(@RequestParam Optional<String> error) {
         return new ModelAndView("login", "error", error);
-    }
-
-    @RequestMapping(value = "/checkLogin", method= RequestMethod.POST)
-    public String checkLogin(@ModelAttribute("user") User user, BindingResult result) {
-        if (result.hasErrors()) {
-            return "login";
-        }
-        return "forward:searchHistory";
     }
 }

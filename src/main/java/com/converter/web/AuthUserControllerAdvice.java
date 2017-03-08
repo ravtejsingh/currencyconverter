@@ -1,6 +1,6 @@
 package com.converter.web;
 
-import com.converter.AuthUser;
+import com.converter.domain.AuthUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;

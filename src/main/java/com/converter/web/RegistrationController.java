@@ -1,11 +1,18 @@
 package com.converter.web;
 
-import com.converter.User;
+import com.converter.domain.AuthUser;
+import com.converter.domain.User;
 import com.converter.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,10 +32,7 @@ public class RegistrationController {
     @Autowired
     private UserService userService;
 
-    /*@Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
+   /* @Autowired
     private UserDetailsService userDetailsService;*/
 
     @RequestMapping("/register")
@@ -41,8 +45,8 @@ public class RegistrationController {
         if (result.hasErrors()) {
             return "register";
         }
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userService.saveUser(user);
-
         /*AuthUser authUser = (AuthUser) userDetailsService.loadUserByUsername(user.getEmailId());
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(authUser, user.getPassword(), authUser.getAuthorities());
         authenticationManager.authenticate(authenticationToken);

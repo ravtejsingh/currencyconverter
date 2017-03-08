@@ -1,7 +1,7 @@
 package com.converter.web;
 
-import com.converter.ExchangeRate;
-import com.converter.SearchHistory;
+import com.converter.domain.ExchangeRate;
+import com.converter.domain.SearchHistory;
 import com.converter.service.SearchHistoryService;
 import com.converter.service.UserService;
 import org.slf4j.Logger;
@@ -32,7 +32,7 @@ public class CurrencyController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping("/converter")
+    @RequestMapping("/getConverter")
     public String converter(Model model) {
         return "converter";
     }
