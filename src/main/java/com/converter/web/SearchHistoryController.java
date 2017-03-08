@@ -1,20 +1,20 @@
 package com.converter.web;
 
-import com.converter.AuthUser;
-import com.converter.SearchHistory;
+import com.converter.domain.SearchHistory;
+import com.converter.domain.User;
 import com.converter.service.SearchHistoryService;
+import com.converter.service.UserService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by ravtej on 5/3/17.
@@ -26,18 +26,20 @@ public class SearchHistoryController {
 
     @Autowired
     private SearchHistoryService searchHistoryService;
+    
+    @Autowired
+    private UserService userService;
 
     @RequestMapping("/searchHistory")
-    public String searchHistory(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            AuthUser authUser = (AuthUser) authentication.getPrincipal();
-            //System.out.println(userService.findAll());
-            List<SearchHistory> searchHistoryList = searchHistoryService.findByUser(authUser.getUser());
-            LOGGER.info("Fetched: "+searchHistoryList);
-            model.addAttribute("searchHistories", searchHistoryList);
-        }
-        return "history";
-    }
+	public String searchHistory(Model model, Principal principal) {
+		String emailId = principal.getName();
+    	Optional<User> user = userService.findUserByEmailId(emailId);
+    	if(user.isPresent()) {
+    		List<SearchHistory> searchHistoryList = searchHistoryService.findByUser(user.get());
+    		LOGGER.info("Fetched: " + searchHistoryList);
+    		model.addAttribute("searchHistories", searchHistoryList);
+    		model.addAttribute("userName", user.get().getFirstName()+" "+user.get().getLastName());
+    	}		
+		return "history";
+	}
 }
