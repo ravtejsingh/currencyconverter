@@ -1,12 +1,11 @@
 package com.converter.service;
 
-import com.converter.Role;
-import com.converter.User;
+import com.converter.domain.Role;
+import com.converter.domain.User;
 import com.converter.dao.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +26,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void saveUser(User user) {
-        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        user.setPassword(user.getPassword());
         user.setRole(Role.USER);
         LOGGER.info("Persisting: "+user);
         userRepository.save(user);

@@ -1,6 +1,6 @@
 package com.converter.service;
 
-import com.converter.User;
+import com.converter.domain.User;
 
 import java.util.List;
 import java.util.Optional;

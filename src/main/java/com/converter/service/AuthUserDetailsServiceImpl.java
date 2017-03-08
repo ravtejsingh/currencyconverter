@@ -1,7 +1,7 @@
 package com.converter.service;
 
-import com.converter.AuthUser;
-import com.converter.User;
+import com.converter.domain.AuthUser;
+import com.converter.domain.User;
 import com.converter.dao.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

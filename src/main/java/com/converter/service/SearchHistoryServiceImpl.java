@@ -1,7 +1,7 @@
 package com.converter.service;
 
-import com.converter.SearchHistory;
-import com.converter.User;
+import com.converter.domain.SearchHistory;
+import com.converter.domain.User;
 import com.converter.dao.SearchHistoryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
