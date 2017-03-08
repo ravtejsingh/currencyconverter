@@ -1,12 +1,12 @@
 package com.converter;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,18 +27,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/public/**").permitAll()
                 .antMatchers("/", "/register", "/registerUser","/login").permitAll()
                 .anyRequest().fullyAuthenticated()
-                .antMatchers("/searchHistory","/converter","/getExchangeRate").access("hasRole('USER')")
-                .anyRequest().permitAll()
+                .antMatchers("/searchHistory","/getConverter","/getExchangeRate").access("hasRole('USER')")
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
+                .defaultSuccessUrl("/searchHistory")
                 .failureUrl("/login?error")
-                .usernameParameter("email")
+                .usernameParameter("emailId")
+                .passwordParameter("password")
                 .permitAll()
                 .and()
                 .logout()
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/login")
+                .logoutSuccessUrl("/")
                 .permitAll().and().csrf().disable();
     }
 
