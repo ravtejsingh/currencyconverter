@@ -1,4 +1,4 @@
-package com.converter;
+package com.converter.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -89,5 +89,29 @@ public class User implements Serializable {
                 ", emailId='" + emailId + '\'' +
                 ", password='" + password + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (userId != user.userId) return false;
+        if (!firstName.equals(user.firstName)) return false;
+        if (!lastName.equals(user.lastName)) return false;
+        if (!emailId.equals(user.emailId)) return false;
+        return role == user.role;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (userId ^ (userId >>> 32));
+        result = 31 * result + firstName.hashCode();
+        result = 31 * result + lastName.hashCode();
+        result = 31 * result + emailId.hashCode();
+        result = 31 * result + role.hashCode();
+        return result;
     }
 }

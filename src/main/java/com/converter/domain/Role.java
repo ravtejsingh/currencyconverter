@@ -1,4 +1,4 @@
-package com.converter;
+package com.converter.domain;
 
 /**
  * Created by ravtej on 6/3/17.

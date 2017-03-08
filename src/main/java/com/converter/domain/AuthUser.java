@@ -1,4 +1,5 @@
-package com.converter;
+package com.converter.domain;
+
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -62,4 +63,9 @@ public class AuthUser implements org.springframework.security.core.userdetails.U
     public boolean isEnabled() {
         return true;
     }
+
+	@Override
+	public String toString() {
+		return "AuthUser [user=" + user + "]";
+	}
 }

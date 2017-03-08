@@ -1,4 +1,4 @@
-package com.converter;
+package com.converter.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
