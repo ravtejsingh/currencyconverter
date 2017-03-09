@@ -10,9 +10,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -32,6 +36,9 @@ public class RegistrationController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    protected AuthenticationManager authenticationManager;
+
    /* @Autowired
     private UserDetailsService userDetailsService;*/
 
@@ -41,7 +48,7 @@ public class RegistrationController {
     }
 
     @RequestMapping(value = "/registerUser", method= RequestMethod.POST)
-    public String registerUser(@ModelAttribute("user") User user, BindingResult result) {
+    public String registerUser(@ModelAttribute("user") User user, BindingResult result, HttpServletRequest request) {
         if (result.hasErrors()) {
             return "register";
         }
@@ -54,7 +61,15 @@ public class RegistrationController {
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             LOGGER.debug(String.format("Auto login %s successfully!", user.getEmailId()));
         }*/
+        autoLogin(user, request);
+        return "searchHistory";
+    }
 
-        return "forward:searchHistory";
+    private void autoLogin(User user, HttpServletRequest request) {
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getEmailId(), user.getPassword(), AuthorityUtils.createAuthorityList(user.getRole().toString()));
+        authToken.setDetails(new WebAuthenticationDetails(request));
+        Authentication authentication = authenticationManager.authenticate(authToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
     }
 }
