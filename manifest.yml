@@ -1,0 +1,4 @@
+---
+applications:
+- name: rconverter
+  path: target/currencyconverter-1.0-SNAPSHOT.war
