@@ -22,6 +22,12 @@ public class User implements Serializable {
     private String emailId;
 
     private String password;
+    
+    private String dateOfBirth;
+    
+    private String address;
+
+	private String country;
 
     private Role role = Role.USER;
 
@@ -72,7 +78,31 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public Role getRole() {
+    public String getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(String dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public Role getRole() {
         return role;
     }
 
@@ -87,7 +117,9 @@ public class User implements Serializable {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", emailId='" + emailId + '\'' +
-                ", password='" + password + '\'' +
+                ", address='" + address + '\'' +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
+                ", country='" + country + '\'' +
                 '}';
     }
 
