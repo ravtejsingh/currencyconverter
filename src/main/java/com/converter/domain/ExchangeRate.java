@@ -13,6 +13,8 @@ public class ExchangeRate {
     private String rate;
 
     private String from;
+    
+    private String v;
 
     public ExchangeRate() {
     }
@@ -41,12 +43,21 @@ public class ExchangeRate {
         this.from = from;
     }
 
-    @Override
+	public String getV() {
+		return v;
+	}
+
+	public void setV(String v) {
+		this.v = v;
+	}
+
+	@Override
     public String toString() {
         return "ExchangeRate{" +
                 "to='" + to + '\'' +
                 ", rate='" + rate + '\'' +
                 ", from='" + from + '\'' +
+                ", value='" + v + '\'' +
                 '}';
     }
 }
