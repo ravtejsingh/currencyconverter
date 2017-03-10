@@ -38,11 +38,14 @@ public class CurrencyController {
     }
 
     @RequestMapping("/getExchangeRate")
-    public String getExchangeRate(@RequestParam("currencyFrom") String currencyFrom, @RequestParam("currencyTo") String currencyTo, Model model) {
+    public String getExchangeRate(@RequestParam("currencyFrom") String currencyFrom, @RequestParam("currencyTo") String currencyTo,
+    		 @RequestParam("amount") String amount, Model model) {
         RestTemplate restTemplate = new RestTemplate();
-        ExchangeRate exchangeRate = restTemplate.getForObject(CONVERTER_URL +"?from="+currencyFrom+"&to="+currencyTo, ExchangeRate.class);
+        ExchangeRate exchangeRate = restTemplate.getForObject(CONVERTER_URL +"?from="+currencyFrom+"&to="+currencyTo+"&q="+amount, ExchangeRate.class);
         exchangeRate.setRate(String.valueOf(BigDecimal.valueOf(Double.valueOf(exchangeRate.getRate())).setScale(3, BigDecimal.ROUND_HALF_UP)));
+        exchangeRate.setV(String.valueOf(BigDecimal.valueOf(Double.valueOf(exchangeRate.getV())).setScale(3, BigDecimal.ROUND_HALF_UP)));
         model.addAttribute("exchangeRate", exchangeRate);
+        LOGGER.info("Fetched Exchange Rate: "+exchangeRate);
         //Save User Search History
         SearchHistory history = new SearchHistory();
         history.setSearchDate(LocalDateTime.now());
