@@ -1,6 +1,5 @@
 package com.converter.service;
 
-import com.converter.domain.Role;
 import com.converter.domain.User;
 import com.converter.dao.UserRepository;
 import org.slf4j.Logger;
@@ -26,8 +25,6 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void saveUser(User user) {
-        user.setPassword(user.getPassword());
-        user.setRole(Role.USER);
         LOGGER.info("Persisting: "+user);
         userRepository.save(user);
     }
