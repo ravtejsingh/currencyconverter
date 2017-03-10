@@ -1,6 +1,7 @@
 package com.converter.web;
 
 import com.converter.domain.AuthUser;
+import com.converter.domain.Role;
 import com.converter.domain.User;
 import com.converter.service.UserService;
 import org.slf4j.Logger;
@@ -37,10 +38,7 @@ public class RegistrationController {
     private UserService userService;
 
     @Autowired
-    protected AuthenticationManager authenticationManager;
-
-   /* @Autowired
-    private UserDetailsService userDetailsService;*/
+    private UserDetailsService userDetailsService;
 
     @RequestMapping("/register")
     public String register(Model model) {
@@ -53,23 +51,16 @@ public class RegistrationController {
             return "register";
         }
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        user.setRole(Role.USER);
         userService.saveUser(user);
-        /*AuthUser authUser = (AuthUser) userDetailsService.loadUserByUsername(user.getEmailId());
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(authUser, user.getPassword(), authUser.getAuthorities());
-        authenticationManager.authenticate(authenticationToken);
-        if (authenticationToken.isAuthenticated()) {
-            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-            LOGGER.debug(String.format("Auto login %s successfully!", user.getEmailId()));
-        }*/
         autoLogin(user, request);
-        return "searchHistory";
+        return "redirect:/getConverter";
     }
 
     private void autoLogin(User user, HttpServletRequest request) {
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getEmailId(), user.getPassword(), AuthorityUtils.createAuthorityList(user.getRole().toString()));
-        authToken.setDetails(new WebAuthenticationDetails(request));
-        Authentication authentication = authenticationManager.authenticate(authToken);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
+        request.getSession();
+        AuthUser authUser = (AuthUser) userDetailsService.loadUserByUsername(user.getEmailId());
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(authUser, authUser.getPassword(), authUser.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authToken);
     }
 }
