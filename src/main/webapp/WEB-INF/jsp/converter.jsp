@@ -25,6 +25,38 @@
 			document.body.appendChild(form);
 			form.submit();
 		}
+		jQuery.validator.addMethod("validAmount", function(value, element) {
+			return this.optional(element) || /^\d{0,9}(\.\d{0,2})?$/i.test(value);
+		}, "Please enter valid amount");
+		
+		$(document).ready(function(){		
+			$formObj = $("#currency_form");
+			$formObj.validate({
+				rules:{
+					amount:{
+						required:true,
+						validAmount: true
+					}
+				},
+				amount:{
+					emailId:{
+						required:"Amount is required",
+						validAmount: "Invalid Amount"
+					}
+				}
+			});
+			$formObj.submit(function(){
+				if($(this).valid())
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+				return true;
+			});
+		});
 	</script>
 </head>
 <body>
@@ -110,6 +142,14 @@
 						</div>
 					</fieldset>
 					<fieldset class="form-group">
+								<label class="col-xs-offset-1 col-xs-10 col-sm-4 col-sm-offset-0 control-label" for="amount">Amount <span style="color: red">*</span></label>
+								<div class="col-xs-offset-1 col-xs-10 col-sm-6 col-sm-offset-0 inputGroupContainer">
+									<div class="input-group">
+										<input type="text" id="amount" name="amount" class="form-control" maxlength="9" autofocus="autofocus" width="10">
+									</div>
+								</div>
+							</fieldset>
+					<fieldset class="form-group">
 						<div class="col-xs-offset-1 col-xs-10 col-sm-8 col-sm-offset-0">
 							<div class="text-center">
 								<button id="btnRegister" value="Get Rate" class="btn btn-primary btn-lg">Get Rate</button>
@@ -120,7 +160,7 @@
 				<hr>
 				<div class="col-md-offset-1">
 					<c:if test="${exchangeRate.rate != null}">
-					<h3><span class="label label-success text-center">Exchange Rate (${exchangeRate.from} - ${exchangeRate.to}) = ${exchangeRate.rate}</span></h3>
+					<h3><span class="label label-success text-center">Exchange Rate (${exchangeRate.from} - ${exchangeRate.to}) = ${exchangeRate.v}</span></h3>
 				</c:if>
 			</div>
 		</div>
