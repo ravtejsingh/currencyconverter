@@ -11,6 +11,10 @@ body {
     border-color: #030033;
 }
 
+.ui-datepicker .ui-datepicker-title select {
+	color: black;
+}
+
 label.error {
 	text-decoration: none;
 	font-family: arial, verdana, sans-serif;
